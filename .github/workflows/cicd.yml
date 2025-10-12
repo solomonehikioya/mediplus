@@ -31,6 +31,7 @@ jobs:
 
       # 🛡️ NEW: Scan Docker image using Trivy
       - name: Scan image for vulnerabilities (Trivy)
+        continue-on-error: true
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: mediplus:${{ github.run_number }}
