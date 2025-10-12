@@ -35,5 +35,5 @@ jobs:
       - name: Tag and push image to Amazon ECR
         run: |
           IMAGE_TAG=${{ github.run_number }}
-          docker tag mediplus:latest public.ecr.aws/n2q6y9g9/mediplus:${IMAGE_TAG}
+          docker tag mediplus:${IMAGE_TAG} public.ecr.aws/n2q6y9g9/mediplus:${IMAGE_TAG}
           docker push public.ecr.aws/n2q6y9g9/mediplus:${IMAGE_TAG}
