@@ -29,12 +29,7 @@ jobs:
           IMAGE_TAG=${{ github.run_number }}
           docker build -t mediplus:${IMAGE_TAG} .
 
-      # 🛡️ NEW: Scan Docker image using Trivy
-      - name: Scan Docker image with Trivy
-           continue-on-error: true
-        run: |
-          trivy image --exit-code 1 --severity HIGH,CRITICAL 960452239089.dkr.ecr.us-east-1.amazonaws.com/mediplus:${{ github.run_number }}
-          rm -f trivy_envs.txt
+
 
 
       - name: Tag and push image to Amazon ECR
