@@ -30,12 +30,12 @@ jobs:
           docker build -t mediplus:${IMAGE_TAG} .
 
       # 🛡️ NEW: Scan Docker image using Trivy
-      - name: Scan image for vulnerabilities (Trivy)
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: mediplus:${{ github.run_number }}
-          format: 'table'
-          severity: 'CRITICAL,HIGH'
+      - name: Scan Docker image with Trivy
+           continue-on-error: true
+        run: |
+          trivy image --exit-code 1 --severity HIGH,CRITICAL 960452239089.dkr.ecr.us-east-1.amazonaws.com/mediplus:${{ github.run_number }}
+          rm -f trivy_envs.txt
+
 
       - name: Tag and push image to Amazon ECR
         run: |
