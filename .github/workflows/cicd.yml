@@ -1,4 +1,4 @@
-name: Build, Scan, and Push image to AWS ECR
+name: Build and Push image to AWS ECR
 
 on:
   push:
@@ -20,20 +20,25 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Login to Amazon ECR
+      # - name: Login to Amazon ECR
+      #   run: |
+      #     aws ecr-public get-login-password --region eu-north-1 | docker login --username AWS --password-stdin public.ecr.aws/n2q6y9g9
+
+          name: Login to Amazon ECR
+          id: login-ecr
+          uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build, Tag and Docker image
         run: |
-          aws ecr-public get-login-password --region eu-north-1 | docker login --username AWS --password-stdin public.ecr.aws/n2q6y9g9
-
-      - name: Build Docker image
-        run: |
-          IMAGE_TAG=${{ github.run_number }}
-          docker build -t mediplus:${IMAGE_TAG} .
+          IMAGE_URL=${{ secrets.REGISTRY_NAME }}/mediplus:$GITHUB_RUN_NUMBER
+          IMAGE_URL=${{ GITHUB_RUN_NUMBER }}
+          docker build -t $IMAGE_URL .
 
 
 
 
-      - name: Tag and push image to Amazon ECR
-        run: |
-          IMAGE_TAG=${{ github.run_number }}
-          docker tag mediplus:${IMAGE_TAG} public.ecr.aws/n2q6y9g9/mediplus:${IMAGE_TAG}
-          docker push public.ecr.aws/n2q6y9g9/mediplus:${IMAGE_TAG}
+      # - name: Tag and push image to Amazon ECR
+      #   run: |
+      #     IMAGE_TAG=${{ github.run_number }}
+      #     docker tag mediplus:latest 030283508812.dkr.ecr.eu-north-1.amazonaws.com/mediplus:latest
+      #     docker push 030283508812.dkr.ecr.eu-north-1.amazonaws.com/mediplus:latest
