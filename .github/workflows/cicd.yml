@@ -30,7 +30,7 @@ jobs:
 
       - name: Build, Tag and Push Docker image
         run: |
-          IMAGE_URL=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/mediplus:${{ github.run_number }}
+          IMAGE_URL=${{ secrets.REGISTRY_NAME }}/mediplus:${{ github.run_number }}
           docker build -t $IMAGE_URL -f ./Dockerfile .
           docker push $IMAGE_URL
 
