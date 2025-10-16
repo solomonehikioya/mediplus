@@ -13,10 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Authenticate to GitHub
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.MYGIT_TOKEN }}
+
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
